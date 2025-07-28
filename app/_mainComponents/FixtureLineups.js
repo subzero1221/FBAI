@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getFixtureLineups } from "../actions/footballActions";
-import FootballField from "./FootBallField";
+import FootballField from "./FootballField";
 import TeamLineup from "./TeamLineup";
 import PulseSpinner from "./PulseSpinner";
 
