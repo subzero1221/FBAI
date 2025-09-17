@@ -15,7 +15,7 @@ function t(key, lang) {
 export default function PricingPage() {
   const language = useUserStore((state) => state.language);
   const [loadingPlan, setLoadingPlan] = useState(null);
-  const {updateTokens} = useUserStore(); 
+  const updateTokens = useUserStore((state => state.updateTokens); 
   
   const plans = [
     {
