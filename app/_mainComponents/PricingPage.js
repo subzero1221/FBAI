@@ -69,13 +69,19 @@ export default function PricingPage() {
     },
   ];
 
+const planTokensMap = {
+  starter: 1000,
+  advanced: 5000,
+  pro: 15000,
+};
+  
   const handlePurchase = async (planName) => {
     setLoadingPlan(planName);
     const result = await handleCheckOut(planName);
     setLoadingPlan(null);
     if (result.success && result.url) {
-     const newTokens = Number(userTokens || 0) + Number(planName.tokens || 0);
-     updateTokens(newTokens);
+    const newTokens = Number(userTokens || 0) + planTokensMap[planName];
+updateTokens(newTokens);
       window.location.href = result.url;
     } else {
       alert(result.message || 'Failed to start checkout.');
