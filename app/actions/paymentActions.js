@@ -15,7 +15,7 @@ export async function handleCheckOut(product) {
       }
 
       const data = await res.json();
-      return {success:true, url: data.url}
+      return {success:true, url: data.url, tokens:data.tokens}
 
     } catch (err) {
       return { success: false, message: err.message || "An error occurred" };
