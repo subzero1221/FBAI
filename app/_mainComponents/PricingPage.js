@@ -15,7 +15,8 @@ function t(key, lang) {
 export default function PricingPage() {
   const language = useUserStore((state) => state.language);
   const [loadingPlan, setLoadingPlan] = useState(null);
-
+  const {updateTokens} = userStore(); 
+  
   const plans = [
     {
       name: t('pricing_starter_name', language),
@@ -72,6 +73,7 @@ export default function PricingPage() {
     const result = await handleCheckOut(planName);
     setLoadingPlan(null);
     if (result.success && result.url) {
+      updateTokens(result.tokens)
       window.location.href = result.url;
     } else {
       alert(result.message || 'Failed to start checkout.');
