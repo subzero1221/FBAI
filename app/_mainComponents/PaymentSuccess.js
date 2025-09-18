@@ -1,7 +1,8 @@
 "use client"
 import Link from "next/link";
-import React from "react";
+const URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 import { useUserStore } from '../store/userStore';
+import React, { useEffect } from "react";
 import en from '../locales/en.json';
 import ru from '../locales/ru.json';
 import ka from '../locales/ka.json';
@@ -14,6 +15,31 @@ function t(key, lang) {
 
 export default function PaymentSuccess() {
   const language = useUserStore((state) => state.language);
+  const updateTokens = useUserStore((state)=> state.updateTokens)
+
+  useEffect(() => {
+    async function checkToken() {
+      try {
+        const res = await fetch(`${URL}/users/me`, {
+          credentials: "include",
+        });
+
+        if (!res.ok) {
+          console.log("Failed to fetch user:", res.status);
+          return;
+        }
+
+        const data = await res.json();
+        if (data?.user) {
+          updateTokens(data.user.tokens);
+        }
+      } catch (err) {
+        console.log("Error checking token:", err);
+      }
+    }
+
+    checkToken();
+  }, [updateTokens]);
   
   const hydrated = useHydrated();
   if (!hydrated) return null;
