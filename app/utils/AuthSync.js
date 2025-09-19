@@ -21,7 +21,7 @@ export default function AuthSync() {
 
         const data = await res.json();
         // ✅ Save fresh user data into store
-        setUser(data);
+        setUser(data.data.user);
 
       } catch (err) {
         clearUser();
