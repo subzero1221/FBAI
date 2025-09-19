@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useUserStore } from '@/app/store/userStore';
 
 export default function AuthSync() {
-  const { user, clearUser, setLoading } = useUserStore();
+  const { user, clearUser, setLoading, setUser } = useUserStore();
 
   useEffect(() => {
     async function checkToken() {
@@ -16,7 +16,13 @@ export default function AuthSync() {
         });
         if (!res.ok) {
           clearUser();
+          return;
         }
+
+        const data = await res.json();
+        // ✅ Save fresh user data into store
+        setUser(data);
+
       } catch (err) {
         clearUser();
       } finally {
@@ -29,7 +35,7 @@ export default function AuthSync() {
     } else {
       setLoading(false);
     }
-  }, [user, clearUser, setLoading]);
+  }, [user, clearUser, setLoading, setUser]);
 
   return null; // no UI needed here
 }
