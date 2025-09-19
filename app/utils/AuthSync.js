@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useUserStore } from '@/app/store/userStore';
 
 export default function AuthSync() {
-  const { user, clearUser, setLoading, setUser } = useUserStore();
+  const { setUser, clearUser, setLoading } = useUserStore();
 
   useEffect(() => {
     async function checkToken() {
@@ -14,15 +14,14 @@ export default function AuthSync() {
         const res = await fetch(`${URL}/users/me`, {
           credentials: 'include',
         });
+
         if (!res.ok) {
           clearUser();
           return;
         }
 
         const data = await res.json();
-        // ✅ Save fresh user data into store
-        setUser(data.data.user);
-
+        setUser(data.data.user); // ✅ save fresh user
       } catch (err) {
         clearUser();
       } finally {
@@ -30,12 +29,8 @@ export default function AuthSync() {
       }
     }
 
-    if (user) {
-      checkToken();
-    } else {
-      setLoading(false);
-    }
-  }, [clearUser, setLoading, setUser]);
+    checkToken(); // 🔥 always run on mount
+  }, [setUser, clearUser, setLoading]);
 
-  return null; // no UI needed here
+  return null;
 }
