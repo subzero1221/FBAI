@@ -35,7 +35,7 @@ export default function AuthSync() {
     } else {
       setLoading(false);
     }
-  }, [user, clearUser, setLoading, setUser]);
+  }, [clearUser, setLoading, setUser]);
 
   return null; // no UI needed here
 }
